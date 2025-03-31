@@ -17,22 +17,9 @@ public class Cube : MonoBehaviour
     public int MinSeparationChance => 0;
     public int MaxSeparationChance => 100;
 
-    private void Awake()
+    public void AddExplosionForce(float explosionForce, Vector3 position, float radius)
     {
-        if (MinSeparationChance > MaxSeparationChance)
-        {
-            throw new Exception("Минимальный шанс не может быть больше максимального");
-        }
-
-        _rigidbody = GetComponent<Rigidbody>();
-
-        if (_rigidbody.useGravity == false)
-        {
-            throw new UnityException($"При создании объекта класса: {this.GetType()}. В компоненте {_rigidbody.GetType()} гравитация установлена в значение false");
-        }
-
-        _boxCollider = GetComponent<BoxCollider>();
-        _meshRenderer = GetComponent<MeshRenderer>();
+        _rigidbody.AddExplosionForce(explosionForce, position, radius);
     }
 
     public void Initialize(int decompositionChance, Vector3 scale)
@@ -52,5 +39,23 @@ public class Cube : MonoBehaviour
         transform.localScale = scale;
 
         _meshRenderer.material.color = color;
+    }
+
+    private void Awake()
+    {
+        if (MinSeparationChance > MaxSeparationChance)
+        {
+            throw new Exception("Минимальный шанс не может быть больше максимального");
+        }
+
+        _rigidbody = GetComponent<Rigidbody>();
+
+        if (_rigidbody.useGravity == false)
+        {
+            throw new UnityException($"При создании объекта класса: {this.GetType()}. В компоненте {_rigidbody.GetType()} гравитация установлена в значение false");
+        }
+
+        _boxCollider = GetComponent<BoxCollider>();
+        _meshRenderer = GetComponent<MeshRenderer>();
     }
 }

@@ -1,3 +1,4 @@
+using Assets.Scripts.Models;
 using System;
 using UnityEngine;
 
@@ -6,8 +7,6 @@ public class InputSystem : MonoBehaviour
     public event Action<Cube> Clicked;
 
     [SerializeField] private Camera _camera;
-
-    private int _leftMouseButtonClickValue = 0;
 
     private void Awake()
     {
@@ -19,7 +18,7 @@ public class InputSystem : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetMouseButtonDown(_leftMouseButtonClickValue))
+        if (Input.GetMouseButtonDown((int)MouseButtonClickValue.Left))
         {
             Ray ray = _camera.ScreenPointToRay(Input.mousePosition);
 

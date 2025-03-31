@@ -12,8 +12,7 @@ public class ExplosionGenerator : MonoBehaviour
         {
             if (collider.TryGetComponent<Cube>(out Cube cube))
             {
-                Rigidbody cubeRigidbody = collider.GetComponent<Rigidbody>();
-                cubeRigidbody.AddExplosionForce(_explosionForce, position, radius);
+                cube.AddExplosionForce(_explosionForce, position, radius);
             }
         }
     }

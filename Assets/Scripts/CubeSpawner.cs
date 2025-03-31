@@ -32,12 +32,12 @@ public class CubeSpawner : MonoBehaviour
 
     private void OnEnable()
     {
-        _cubeDestroyer.CubeDestroyed += TrySpawn;
+        _cubeDestroyer.Destroyed += TrySpawn;
     }
 
     private void OnDisable()
     {
-        _cubeDestroyer.CubeDestroyed -= TrySpawn;
+        _cubeDestroyer.Destroyed -= TrySpawn;
     }
 
     private bool TrySpawn(Cube destroyableCube)

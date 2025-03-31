@@ -3,8 +3,9 @@ using UnityEngine;
 
 public class CubeDestroyer : MonoBehaviour
 {
-    public event Predicate<Cube> CubeDestroyed;
-    [SerializeField] InputSystem _inputSystem;
+    [SerializeField] private InputSystem _inputSystem;
+
+    public event Predicate<Cube> Destroyed;
 
     private void OnEnable()
     {
@@ -19,6 +20,6 @@ public class CubeDestroyer : MonoBehaviour
     private void Destroy(Cube cube)
     {
         Destroy(cube.gameObject);
-        CubeDestroyed?.Invoke(cube);
+        Destroyed?.Invoke(cube);
     }
 }
