@@ -4,16 +4,11 @@ public class ExplosionGenerator : MonoBehaviour
 {
     [SerializeField, Min(1f)] private float _explosionForce;
 
-    public void Explode(Vector3 position, float radius)
+    public void Explode(Cube[] cubes, Vector3 position, float radius)
     {
-        Collider[] colliders = Physics.OverlapSphere(position, radius);
-
-        foreach (Collider collider in colliders)
+        foreach (Cube cube in cubes)
         {
-            if (collider.TryGetComponent<Cube>(out Cube cube))
-            {
-                cube.AddExplosionForce(_explosionForce, position, radius);
-            }
+            cube.AddExplosionForce(_explosionForce, position, radius);
         }
     }
 }

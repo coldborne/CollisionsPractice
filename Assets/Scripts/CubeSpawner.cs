@@ -64,7 +64,7 @@ public class CubeSpawner : MonoBehaviour
                 cube.gameObject.SetActive(true);
             }
 
-            _explosionGenerator.Explode(destroyableCube.transform.position, _spawnRadius);
+            _explosionGenerator.Explode(cubes, destroyableCube.transform.position, _spawnRadius);
 
             return true;
         }
