@@ -53,9 +53,4 @@ public class Cube : MonoBehaviour
 
         _meshRenderer.material.color = color;
     }
-
-    public void AddExplosionForce(float explosionForce, Vector3 position, float radius)
-    {
-        _rigidbody.AddExplosionForce(explosionForce, position, radius);
-    }
 }

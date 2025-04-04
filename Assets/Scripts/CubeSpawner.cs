@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class CubeSpawner : MonoBehaviour
@@ -51,6 +52,7 @@ public class CubeSpawner : MonoBehaviour
 
             int newCubeCount = UnityEngine.Random.Range(_minNewCubeCount, _maxNewCubeCount + 1);
             Cube[] cubes = _cubeGenerator.Clone(destroyableCube, newCubeCount);
+            List<Rigidbody> rigidbodies = new List<Rigidbody>();
 
             foreach (Cube cube in cubes)
             {
@@ -62,9 +64,14 @@ public class CubeSpawner : MonoBehaviour
 
                 cube.Initialize(newCubeSeparationChance, newCubeScale);
                 cube.gameObject.SetActive(true);
+
+                if (cube.TryGetComponent<Rigidbody>(out Rigidbody rigidbody))
+                {
+                    rigidbodies.Add(rigidbody);
+                }
             }
 
-            _explosionGenerator.Explode(cubes, destroyableCube.transform.position, _spawnRadius);
+            _explosionGenerator.Explode(rigidbodies.ToArray(), destroyableCube.transform.position, _spawnRadius);
 
             return true;
         }
