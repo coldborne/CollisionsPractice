@@ -12,14 +12,14 @@ public class Cube : MonoBehaviour
     private BoxCollider _boxCollider;
     private MeshRenderer _meshRenderer;
 
-    public int SeparationChance { get; private set; }
+    public int SplitChance { get; private set; }
 
-    public int MinSeparationChance => 0;
-    public int MaxSeparationChance => 100;
+    public int MinSplitChance => 0;
+    public int MaxSplitChance => 100;
 
     private void Awake()
     {
-        if (MinSeparationChance > MaxSeparationChance)
+        if (MinSplitChance > MaxSplitChance)
         {
             throw new Exception("Минимальный шанс не может быть больше максимального");
         }
@@ -35,9 +35,9 @@ public class Cube : MonoBehaviour
         _meshRenderer = GetComponent<MeshRenderer>();
     }
 
-    public void Initialize(int decompositionChance, Vector3 scale)
+    public void Initialize(int splitChance, Vector3 scale)
     {
-        if (decompositionChance < MinSeparationChance || decompositionChance > MaxSeparationChance)
+        if (splitChance < MinSplitChance || splitChance > MaxSplitChance)
         {
             throw new ArgumentOutOfRangeException("Шанс разделения вне допустимых пределах");
         }
@@ -48,7 +48,7 @@ public class Cube : MonoBehaviour
 
         Color color = _colors[colorIndex];
 
-        SeparationChance = decompositionChance;
+        SplitChance = splitChance;
         transform.localScale = scale;
 
         _meshRenderer.material.color = color;
