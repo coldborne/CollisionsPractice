@@ -60,7 +60,12 @@ public class CubeSpawnerZone : MonoBehaviour
             _spawnZoneBounds.min.y,
             Random.Range(_spawnZoneBounds.min.z, _spawnZoneBounds.max.z));
 
-        Cube cube = _cubeGenerator.Clone(_cubePrefabs[0], 100, new Vector3(1, 1, 1));
+        int cubePrefabIndex = Random.Range(0, _cubePrefabs.Length);
+        Cube prefab = _cubePrefabs[cubePrefabIndex];
+        int startPrefabSplitChance = 100;
+        Vector3 startPrefabScale = new Vector3(1, 1, 1);
+
+        Cube cube = _cubeGenerator.Clone(prefab, startPrefabSplitChance, startPrefabScale);
 
         _cubeSpawner.Spawn(cube, position, Quaternion.identity);
     }
