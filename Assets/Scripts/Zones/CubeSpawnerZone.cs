@@ -1,9 +1,13 @@
 using System.Collections;
+using Unity.VisualScripting;
 using UnityEngine;
 
 [RequireComponent(typeof(MeshCollider))]
 public class CubeSpawnerZone : MonoBehaviour
 {
+    [SerializeField] private CubeGenerator _cubeGenerator;
+    [SerializeField] private CubeSpawner _cubeSpawner;
+
     [SerializeField] private Cube[] _cubePrefabs;
     [SerializeField] private bool _hasStoped = false;
 
@@ -56,7 +60,8 @@ public class CubeSpawnerZone : MonoBehaviour
             _spawnZoneBounds.min.y,
             Random.Range(_spawnZoneBounds.min.z, _spawnZoneBounds.max.z));
 
-        Cube cube = Instantiate(_cubePrefabs[0], position, Quaternion.identity);
-        cube.Initialize(100, new Vector3(1, 1, 1));
+        Cube cube = _cubeGenerator.Clone(_cubePrefabs[0], 100, new Vector3(1, 1, 1));
+
+        _cubeSpawner.Spawn(cube, position, Quaternion.identity);
     }
 }

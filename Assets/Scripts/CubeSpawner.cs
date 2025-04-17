@@ -1,81 +1,18 @@
-using System;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class CubeSpawner : MonoBehaviour
 {
-    [SerializeField] private CubeDestroyer _cubeDestroyer;
-    [SerializeField] private CubeGenerator _cubeGenerator;
-    [SerializeField] private ExplosionGenerator _explosionGenerator;
-
-    [SerializeField, Min(0.1f)] private float _spawnRadius;
-
-    private readonly int _minNewCubeCount = 2;
-    private readonly int _maxNewCubeCount = 6;
-
-    private void Awake()
+    public void Spawn(Cube cube, float spawnRadius, Quaternion quaternion)
     {
-        if (_cubeDestroyer == null)
-        {
-            throw new NullReferenceException($"Создателю кубов не установлено поле: {typeof(CubeDestroyer)}");
-        }
+        cube.transform.position = cube.transform.position + Random.insideUnitSphere * spawnRadius;
 
-        if (_cubeGenerator == null)
-        {
-            throw new NullReferenceException($"Создателю кубов не установлено поле: {typeof(CubeGenerator)}");
-        }
-
-        if (_explosionGenerator == null)
-        {
-            throw new NullReferenceException($"Создателю кубов не установлено поле: {typeof(ExplosionGenerator)}");
-        }
+        cube.gameObject.SetActive(true);
     }
 
-    private void OnEnable()
+    public void Spawn(Cube cube, Vector3 position, Quaternion quaternion)
     {
-        _cubeDestroyer.Destroyed += TrySpawn;
-    }
+        cube.transform.position = position;
 
-    private void OnDisable()
-    {
-        _cubeDestroyer.Destroyed -= TrySpawn;
-    }
-
-    private bool TrySpawn(Cube destroyableCube)
-    {
-        int separationResult = UnityEngine.Random.Range(destroyableCube.MinSeparationChance, destroyableCube.MaxSeparationChance);
-
-        if (separationResult <= destroyableCube.SeparationChance)
-        {
-            int separationChanceModifier = 2;
-            int scaleModifier = 2;
-
-            int newCubeCount = UnityEngine.Random.Range(_minNewCubeCount, _maxNewCubeCount + 1);
-            Cube[] cubes = _cubeGenerator.Clone(destroyableCube, newCubeCount);
-            List<Rigidbody> rigidbodies = new List<Rigidbody>();
-
-            foreach (Cube cube in cubes)
-            {
-                Vector3 cubePosition = destroyableCube.transform.position + UnityEngine.Random.insideUnitSphere * _spawnRadius;
-                cube.transform.position = cubePosition;
-
-                int newCubeSeparationChance = destroyableCube.SeparationChance / separationChanceModifier;
-                Vector3 newCubeScale = destroyableCube.transform.localScale / scaleModifier;
-
-                cube.Initialize(newCubeSeparationChance, newCubeScale);
-                cube.gameObject.SetActive(true);
-
-                if (cube.TryGetComponent<Rigidbody>(out Rigidbody rigidbody))
-                {
-                    rigidbodies.Add(rigidbody);
-                }
-            }
-
-            _explosionGenerator.Explode(rigidbodies.ToArray(), destroyableCube.transform.position, _spawnRadius);
-
-            return true;
-        }
-
-        return false;
+        cube.gameObject.SetActive(true);
     }
 }
